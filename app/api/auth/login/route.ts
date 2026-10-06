@@ -32,7 +32,8 @@ export async function POST(request: Request) {
     })
 
     if (authError || !authData.user) {
-      await logAuditEvent({
+      // Fire-and-forget audit event in background without blocking response
+      void logAuditEvent({
         action: 'LOGIN_FAILED',
         entityType: 'AUTH',
         success: false,
@@ -48,7 +49,7 @@ export async function POST(request: Request) {
     const admin = createAdminClient()
     const { data: profile } = await admin
       .from('profiles')
-      .select('*')
+      .select('role, status, full_name')
       .eq('id', authData.user.id)
       .maybeSingle()
 
@@ -63,7 +64,8 @@ export async function POST(request: Request) {
     const role = profile?.role || 'student'
     const redirectUrl = role === 'admin' ? '/admin' : role === 'teacher' ? '/teacher' : '/student'
 
-    await logAuditEvent({
+    // Fire-and-forget success audit log in background
+    void logAuditEvent({
       actorId: authData.user.id,
       action: 'LOGIN_SUCCESS',
       entityType: 'AUTH',

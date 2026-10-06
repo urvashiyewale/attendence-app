@@ -314,14 +314,16 @@ export function DashboardLayout({
           </div>
         </header>
 
-        {/* Page Content (with bottom padding for mobile bottom bar) */}
-        <main className="flex-1 p-3 sm:p-8 lg:p-10 pb-24 sm:pb-8 lg:pb-10">{children}</main>
+        {/* Page Content (with bottom padding for mobile bottom bar + safe area) */}
+        <main className="flex-1 w-full max-w-full overflow-x-hidden p-3.5 sm:p-8 lg:p-10 pb-24 sm:pb-8 lg:pb-10">
+          {children}
+        </main>
       </div>
 
       {/* Mobile Docked Bottom Navigation Bar */}
       <nav
         aria-label="Mobile Navigation"
-        className="fixed bottom-0 left-0 right-0 z-40 flex h-16 items-center justify-around border-t border-slate-200/90 bg-white/95 px-2 backdrop-blur-md lg:hidden shadow-[0_-4px_16px_rgba(0,0,0,0.06)]"
+        className="fixed bottom-0 left-0 right-0 z-40 flex h-16 items-center justify-around border-t border-slate-200/90 bg-white/95 px-2 backdrop-blur-md lg:hidden shadow-[0_-4px_16px_rgba(0,0,0,0.06)] pb-[env(safe-area-inset-bottom,0px)]"
       >
         {bottomNavItems.map((item) => {
           const Icon = item.icon

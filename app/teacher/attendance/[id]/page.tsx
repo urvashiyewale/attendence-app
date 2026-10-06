@@ -364,22 +364,22 @@ export default function LiveAttendanceRoomPage() {
                 />
               </div>
 
-              <CardContent className="p-8 flex flex-col items-center justify-center">
+              <CardContent className="p-4 sm:p-8 flex flex-col items-center justify-center">
                 {loading ? (
-                  <div className="flex h-80 flex-col items-center justify-center gap-3">
+                  <div className="flex h-64 sm:h-80 flex-col items-center justify-center gap-3">
                     <Loader2 className="size-10 animate-spin text-[#6558ee]" />
-                    <p className="text-sm text-slate-500">Generating cryptographic token…</p>
+                    <p className="text-xs sm:text-sm text-slate-500">Generating cryptographic token…</p>
                   </div>
                 ) : qrDataUrl ? (
-                  <div className="space-y-4 text-center">
-                    <div className="relative inline-block rounded-3xl border-4 border-slate-900/5 p-4 shadow-xl bg-white">
+                  <div className="space-y-4 text-center w-full flex flex-col items-center">
+                    <div className="relative inline-block max-w-full rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-slate-900/5 p-2 sm:p-4 shadow-lg sm:shadow-xl bg-white">
                       <img
                         src={qrDataUrl}
                         alt="Dynamic Attendance QR"
-                        className="size-72 sm:size-80 rounded-2xl object-contain"
+                        className="size-60 xs:size-64 sm:size-80 max-w-full rounded-xl sm:rounded-2xl object-contain mx-auto"
                       />
                       {rotating && (
-                        <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-white/70 backdrop-blur-xs">
+                        <div className="absolute inset-0 flex items-center justify-center rounded-xl sm:rounded-2xl bg-white/70 backdrop-blur-xs">
                           <Loader2 className="size-8 animate-spin text-[#6558ee]" />
                         </div>
                       )}
@@ -389,7 +389,7 @@ export default function LiveAttendanceRoomPage() {
                       <span className="inline-flex items-center gap-1.5 rounded-md bg-violet-50 px-2.5 py-1 text-xs font-medium text-[#6558ee]">
                         <RefreshCw className="size-3 animate-spin" /> Rotates automatically every 15s
                       </span>
-                      <p className="text-xs text-slate-500">
+                      <p className="text-[11px] sm:text-xs text-slate-500 max-w-xs sm:max-w-md">
                         Ask students to scan using their mobile camera from the Attendly student portal
                       </p>
                     </div>

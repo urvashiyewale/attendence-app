@@ -68,8 +68,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: false, message: profileError.message }, { status: 500 })
     }
 
-    // 3. Log audit event
-    await logAuditEvent({
+    // 3. Log audit event in background (fire-and-forget)
+    void logAuditEvent({
       actorId: authData.user.id,
       action: 'USER_CREATED',
       entityType: role.toUpperCase(),

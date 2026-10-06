@@ -582,37 +582,37 @@ export default function StudentScanPage() {
         {/* Camera Scanner View */}
         {scanState !== 'success' && scanState !== 'error' && (
           <Card className="border-slate-200 shadow-md overflow-hidden bg-white">
-            <CardHeader className="bg-slate-900 text-white p-4">
-              <CardTitle className="text-base flex items-center gap-2">
+            <CardHeader className="bg-slate-900 text-white p-3.5 sm:p-4">
+              <CardTitle className="text-sm sm:text-base flex items-center gap-2">
                 <Camera className="size-4 text-[#6558ee]" /> Live Camera Scanner
               </CardTitle>
-              <CardDescription className="text-xs text-slate-300">
+              <CardDescription className="text-[11px] sm:text-xs text-slate-300">
                 Grant camera permission when prompted by your browser
               </CardDescription>
             </CardHeader>
 
-            <CardContent className="p-6 flex flex-col items-center">
+            <CardContent className="p-4 sm:p-6 flex flex-col items-center">
               {/* QR Container element for html5-qrcode */}
-              <div className="relative w-full max-w-[340px] aspect-square rounded-2xl overflow-hidden border-2 border-slate-200 bg-black flex items-center justify-center">
+              <div className="relative w-full max-w-[320px] sm:max-w-[340px] aspect-square rounded-2xl overflow-hidden border-2 border-slate-200 bg-black flex items-center justify-center">
                 <div id="qr-reader-container" className="w-full h-full" />
 
                 {scanState === 'idle' && (
-                  <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-xs flex flex-col items-center justify-center p-6 text-center text-white gap-4 overflow-hidden">
+                  <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-xs flex flex-col items-center justify-center p-4 sm:p-6 text-center text-white gap-3 sm:gap-4 overflow-hidden">
                     <img
                       src="/images/scanner-mockup.jpg"
                       alt="Scanner guide"
                       className="absolute inset-0 h-full w-full object-cover opacity-25"
                     />
-                    <div className="relative z-10 size-16 rounded-2xl bg-[#6558ee]/20 flex items-center justify-center text-white border border-white/10 shadow-sm">
-                      <QrCode className="size-8 text-white" />
+                    <div className="relative z-10 size-14 sm:size-16 rounded-2xl bg-[#6558ee]/20 flex items-center justify-center text-white border border-white/10 shadow-sm">
+                      <QrCode className="size-7 sm:size-8 text-white" />
                     </div>
                     <div className="relative z-10">
-                      <h4 className="font-bold text-base">Ready to Scan</h4>
-                      <p className="text-xs text-slate-300 mt-1">Point your camera at the rotating classroom QR display</p>
+                      <h4 className="font-bold text-sm sm:text-base">Ready to Scan</h4>
+                      <p className="text-[11px] sm:text-xs text-slate-300 mt-1">Point your camera at the rotating classroom QR display</p>
                     </div>
                     <Button
                       onClick={startScanner}
-                      className="relative z-10 bg-[#6558ee] hover:bg-[#5549d8] text-white rounded-xl font-bold shadow-lg shadow-[#6558ee]/40 px-6 py-2.5"
+                      className="relative z-10 bg-[#6558ee] hover:bg-[#5549d8] text-white rounded-xl font-bold shadow-lg shadow-[#6558ee]/40 px-5 sm:px-6 py-2 text-xs sm:text-sm"
                     >
                       <Camera className="size-4 mr-2" /> Open Camera
                     </Button>
@@ -629,7 +629,7 @@ export default function StudentScanPage() {
               </div>
 
               {scanState === 'scanning' && (
-                <div className="mt-4 flex flex-col items-center gap-2">
+                <div className="mt-3.5 sm:mt-4 flex flex-col items-center gap-2">
                   <span className="inline-flex items-center gap-1.5 text-xs text-emerald-600 font-semibold animate-pulse">
                     <span className="size-2 rounded-full bg-emerald-500" /> Camera active · Scanning code
                   </span>
@@ -637,7 +637,7 @@ export default function StudentScanPage() {
                     variant="outline"
                     size="sm"
                     onClick={stopScanner}
-                    className="text-xs text-slate-600 border-slate-300"
+                    className="text-xs text-slate-600 border-slate-300 h-8"
                   >
                     Cancel Scan
                   </Button>

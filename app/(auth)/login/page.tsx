@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
@@ -35,6 +35,13 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+
+  // Prefetch main destinations on initial page mount
+  useEffect(() => {
+    router.prefetch('/student')
+    router.prefetch('/teacher')
+    router.prefetch('/admin')
+  }, [router])
 
   // Signup fields
   const [fullName, setFullName] = useState('')
@@ -83,6 +90,11 @@ export default function LoginPage() {
     setLoading(true)
 
     try {
+      // Pre-warm dashboard routes in parallel
+      router.prefetch('/student')
+      router.prefetch('/teacher')
+      router.prefetch('/admin')
+
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -93,6 +105,7 @@ export default function LoginPage() {
 
       if (!response.ok || !result.ok) {
         setError(result?.message || 'Invalid email or password.')
+        setLoading(false)
         return
       }
 
@@ -103,11 +116,11 @@ export default function LoginPage() {
           : result.user?.role === 'teacher'
           ? '/teacher'
           : '/student')
+      
+      // Fast immediate navigation
       router.push(target)
-      router.refresh()
     } catch {
       setError('Unable to reach authentication service. Please check your connection.')
-    } finally {
       setLoading(false)
     }
   }
@@ -157,29 +170,28 @@ export default function LoginPage() {
 
       if (!response.ok || !result.ok) {
         setError(result?.message || 'Failed to create account.')
+        setLoading(false)
         return
       }
 
       const target = result.redirectTo || (role === 'teacher' ? '/teacher' : '/student')
       router.push(target)
-      router.refresh()
     } catch {
       setError('Registration error. Please try again.')
-    } finally {
       setLoading(false)
     }
   }
 
   return (
-    <main className="relative min-h-screen w-full bg-[#0b0f19] text-[#1e293b] flex flex-col lg:flex-row">
+    <main className="relative min-h-[100dvh] w-full bg-[#0b0f19] text-[#1e293b] flex flex-col lg:flex-row overflow-x-hidden">
       {/* Background for Mobile View (Generated 9:16 Portrait Campus Architecture) */}
       <div className="absolute inset-0 lg:hidden pointer-events-none">
         <img
           src="/images/mobile-login-hero.jpg"
           alt="Campus Sunset Ambiance"
-          className="size-full object-cover object-top brightness-[0.45] saturate-[1.1]"
+          className="size-full object-cover object-top brightness-[0.38] saturate-[1.1]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0b0f19] via-[#0b0f19]/70 to-[#0b0f19]/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0b0f19] via-[#0b0f19]/80 to-[#0b0f19]/40" />
       </div>
 
       {/* Visual Brand Panel (Left on Desktop) */}
@@ -257,9 +269,9 @@ export default function LoginPage() {
       </section>
 
       {/* Auth Card Panel (Right on Desktop, Centered Mobile Experience) */}
-      <section className="relative z-10 flex flex-1 flex-col justify-center px-4 py-8 sm:px-8 lg:p-12 lg:bg-[#f1f5f9]">
+      <section className="relative z-10 flex flex-1 flex-col justify-center px-3.5 py-6 sm:px-8 lg:p-12 lg:bg-[#f1f5f9]">
         {/* Mobile Top Brand Header */}
-        <div className="mb-6 flex flex-col items-center text-center lg:hidden">
+        <div className="mb-4 flex flex-col items-center text-center lg:hidden">
           <Link href="/" className="inline-flex items-center gap-2.5 mb-2">
             <div className="flex size-10 items-center justify-center rounded-xl bg-[#6558ee] text-white shadow-lg shadow-[#6558ee]/40 ring-2 ring-white/20">
               <Zap className="size-5 fill-current" />
@@ -276,7 +288,7 @@ export default function LoginPage() {
 
         <div className="mx-auto w-full max-w-md">
           {/* Card Container with subtle backdrop elevation on mobile */}
-          <Card className="border-slate-200/80 bg-white/98 shadow-2xl backdrop-blur-lg rounded-3xl overflow-hidden sm:border-slate-200">
+          <Card className="border-slate-200/80 bg-white/98 shadow-2xl backdrop-blur-lg rounded-2xl sm:rounded-3xl overflow-hidden sm:border-slate-200">
             {/* 1-Tap Quick Demo Role Selector */}
             <div className="bg-slate-50 border-b border-slate-100 p-3 sm:p-4">
               <div className="flex items-center justify-between mb-2">
